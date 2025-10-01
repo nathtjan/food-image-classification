@@ -1,39 +1,42 @@
-# train_resnet.py
 import pandas as pd
 import time
-from resnet50 import train_resnet_from_df # Impor fungsi training
+import torch
+from resnet50 import train_resnet_from_df # Ganti ini
 
 # Konfigurasi
 IMAGE_BASE_PATH = 'food_cls/'
-TRAIN_CSV_PATH = 'food_cls/train.csv'
-VAL_CSV_PATH = 'food_cls/val.csv'
-SAVE_PATH = 'weights/resnet50_baseline.h5'
+TRAIN_CSV_PATH = IMAGE_BASE_PATH + 'train.csv'
+VAL_CSV_PATH = IMAGE_BASE_PATH + 'val.csv'
+SAVE_PATH = 'weights/resnet50_from_scratch.pth'
+
+def fullpath(path):
+    return IMAGE_BASE_PATH + path
 
 # Muat data
 train_df = pd.read_csv(TRAIN_CSV_PATH)
 val_df = pd.read_csv(VAL_CSV_PATH)
+# Sesuaikan path
+train_df["path"] = train_df["path"].apply(fullpath)
+val_df["path"] = val_df["path"].apply(fullpath)
 
-# Konfigurasi training
+# !!! KONFIGURASI PENTING UNTUK TRAINING DARI NOL !!!
 training_config = dict(
-    img_size=(224, 224),
     batch_size=32,
-    epochs=60 
+    epochs=90,      # <-- Butuh epoch banyak, samakan dengan teman Anda
+    lr=0.01,        # <-- Learning rate SGD, bisa dieksperimen
+    num_workers=4
 )
 
 # Jalankan training
 start = time.time()
-model, history = train_resnet_from_df(
+model, label2dense, dense2label = train_resnet_from_df(
     train_df=train_df,
     val_df=val_df,
-    image_base_path=IMAGE_BASE_PATH,
     config=training_config
 )
 end = time.time()
 
 # Simpan model
-model.save(SAVE_PATH)
+torch.save(model.state_dict(), SAVE_PATH) # Gunakan .state_dict()
 
 print(f"Finished training in {end-start:.3f} seconds")
-# Cetak akurasi validasi terbaik
-best_val_acc = max(history.history['val_accuracy'])
-print(f"Best validation accuracy: {best_val_acc:.4f}")
