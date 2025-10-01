@@ -1,4 +1,3 @@
-# resnet/train.py
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator

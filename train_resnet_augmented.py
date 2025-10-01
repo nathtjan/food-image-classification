@@ -5,10 +5,10 @@ from resnet50 import train_resnet_from_df
 
 # Konfigurasi
 IMAGE_BASE_PATH = 'food_cls/'
-# --- UBAH BARIS INI ---
+
 TRAIN_CSV_PATH = 'food_cls/augmented.csv'
 VAL_CSV_PATH = 'food_cls/val.csv'
-# --- UBAH BARIS INI ---
+
 SAVE_PATH = 'weights/resnet50_augmented.h5'
 
 # Muat data
