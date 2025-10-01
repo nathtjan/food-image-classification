@@ -12,9 +12,9 @@ def fullpath(path):
     return os.path.join(BASE_PATH, path)
 
 
-train_csv_path = fullpath("train.csv")
+train_csv_path = fullpath("augmented.csv")
 val_csv_path = fullpath("val.csv")
-save_path = "weights/alexnet.pth"
+save_path = "weights/alexnet-augmented.pth"
 train_df = pd.read_csv(train_csv_path)
 val_df = pd.read_csv(val_csv_path)
 
