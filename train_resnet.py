@@ -23,7 +23,7 @@ val_df["path"] = val_df["path"].apply(fullpath)
 training_config = dict(
     batch_size=32,
     epochs=60,      
-    lr=0.1,        # <-- Learning rate SGD, bisa dieksperimen
+    lr=0.01,        # <-- Learning rate SGD, bisa dieksperimen
     num_workers=4
 )
 
