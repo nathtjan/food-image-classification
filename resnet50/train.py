@@ -43,7 +43,7 @@ def train_resnet_from_df(train_df, val_df, config):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device} | num_classes={num_classes}")
 
-    # Data Augmentation lebih agresif karena training dari nol
+    
     train_transform = transforms.Compose([
         transforms.Resize(256),
         transforms.RandomResizedCrop(224),
@@ -69,7 +69,7 @@ def train_resnet_from_df(train_df, val_df, config):
     model = ResNet50(num_classes=num_classes).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=config['lr'], momentum=0.9, weight_decay=5e-4)
-    # Anda juga bisa menambahkan scheduler di sini jika mau
+    
     
     for epoch in range(config['epochs']):
         model.train()
@@ -82,6 +82,7 @@ def train_resnet_from_df(train_df, val_df, config):
             loss.backward()
             optimizer.step()
             
+            
             running_loss += loss.item() * images.size(0)
             _, predicted = outputs.max(1)
             total += labels.size(0)
@@ -90,7 +91,7 @@ def train_resnet_from_df(train_df, val_df, config):
         train_loss = running_loss / total
         train_acc = correct / total
 
-        # Proses validasi... (Sama seperti di alexnet/train.py teman Anda)
+        # Proses validasi
         model.eval()
         val_loss, val_correct, val_total = 0.0, 0, 0
         with torch.no_grad():

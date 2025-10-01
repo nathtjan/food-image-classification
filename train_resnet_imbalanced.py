@@ -1,9 +1,7 @@
-# train_resnet_imbalanced.py
-
 import pandas as pd
 import time
 import torch
-from resnet_utils.train import train_resnet_from_df
+from resnet50 import train_resnet_from_df
 
 # Konfigurasi
 IMAGE_BASE_PATH = 'food_cls/'

@@ -1,9 +1,7 @@
-# train_resnet_augmented.py
-
 import pandas as pd
 import time
 import torch
-from resnet_utils.train import train_resnet_from_df
+from resnet50 import train_resnet_from_df
 
 # Konfigurasi
 IMAGE_BASE_PATH = 'food_cls/'
@@ -17,11 +15,11 @@ def fullpath(path):
 # Muat data
 train_df = pd.read_csv(TRAIN_CSV_PATH)
 val_df = pd.read_csv(VAL_CSV_PATH)
-# Sesuaikan path
+
 train_df["path"] = train_df["path"].apply(fullpath)
 val_df["path"] = val_df["path"].apply(fullpath)
 
-# Konfigurasi training (sama seperti baseline)
+
 training_config = dict(
     batch_size=32,
     epochs=90,
